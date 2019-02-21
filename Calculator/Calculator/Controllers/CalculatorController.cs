@@ -8,10 +8,28 @@ namespace Calculator.Controllers
     public class CalculatorController : ControllerBase
     {   
         // GET api/values/5
-        [HttpGet("{firstNumber}/{secondNumber}")]
-        public IActionResult Get(int firstNumber, int secondNumber)
+        [HttpGet("sum/{firstNumber}/{secondNumber}")]
+        public IActionResult Sum(int firstNumber, int secondNumber)
         {
             return Ok(firstNumber + secondNumber);
+        }
+
+        [HttpGet("subtraction/{firstNumber}/{secondNumber}")]
+        public IActionResult Subtraction(int firstNumber, int secondNumber)
+        {
+            return Ok(firstNumber - secondNumber);
+        }
+
+        [HttpGet("multiplication/{firstNumber}/{secondNumber}")]
+        public IActionResult Multiplication(int firstNumber, int secondNumber)
+        {
+            return Ok(firstNumber * secondNumber);
+        }
+
+        [HttpGet("division/{firstNumber}/{secondNumber}")]
+        public IActionResult Division(int firstNumber, int secondNumber)
+        {
+            return Ok(firstNumber / secondNumber);
         }
     }
 }
