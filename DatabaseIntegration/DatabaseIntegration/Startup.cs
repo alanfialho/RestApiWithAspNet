@@ -1,6 +1,7 @@
 ﻿using DatabaseIntegration.Model.Context;
 using DatabaseIntegration.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,8 +41,23 @@ namespace DatabaseIntegration
                 app.UseHsts();
             }
 
+            SetUpExceptionHandler(app);
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        public static void SetUpExceptionHandler(IApplicationBuilder app)
+        {
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    context.Response.StatusCode = 500;
+
+                    var exceptionHandlerPathFeature =
+                        context.Features.Get<IExceptionHandlerPathFeature>();
+                });
+            });
         }
     }
 }

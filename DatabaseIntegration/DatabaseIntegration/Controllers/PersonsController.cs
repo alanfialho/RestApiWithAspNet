@@ -18,34 +18,20 @@ namespace DatabaseIntegration.Controllers
             _service = service;
         }
         
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var person = _service.GetById(id);
+            return Ok(person);
         }
 
         // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody] Person person)
         {
-            try
-            {
-                var @new = _service.Create(person);
-                return Ok(@new);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-
+            var @new = _service.Create(person);
+            return Ok(@new);
         }
 
         // PUT api/values/5

@@ -43,5 +43,21 @@ namespace DatabaseIntegration.IntegrationTest
             Assert.Equal(personCreated.Address, person.Address);
 
         }
+
+        [Fact]
+        public async Task ShouldGetPersonById()
+        {
+            var httpResponse = await _httpClient.GetAsync("/api/persons/1");
+            httpResponse.EnsureSuccessStatusCode();
+            var response = await httpResponse.Content.ReadAsStringAsync();
+            var personCreated = JsonConvert.DeserializeObject<Person>(response);
+
+            Assert.True(personCreated.Id.Equals(1));
+            Assert.NotEmpty(personCreated.FirstName);
+            Assert.NotEmpty(personCreated.LastName);
+            Assert.NotEmpty(personCreated.Gender);
+            Assert.NotEmpty(personCreated.Address);
+
+        }
     }
 }

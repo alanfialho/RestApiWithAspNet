@@ -19,5 +19,10 @@ namespace DatabaseIntegration.Services
             _context.SaveChanges();
             return person;
         }
+
+        public Person GetById(int id)
+        {
+            return _context.Find<Person>(id);
+        }
     }
 }
