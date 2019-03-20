@@ -33,7 +33,7 @@ namespace DatabaseIntegration.IntegrationTest
         {
             var body = new StringContent(JsonConvert.SerializeObject(_person).ToString());
             body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var httpResponse = await _httpClient.PostAsync("/api/persons", body);
+            var httpResponse = await _httpClient.PostAsync("/api/v1/persons", body);
             httpResponse.EnsureSuccessStatusCode();
             var response = await httpResponse.Content.ReadAsStringAsync();
             var personCreated = JsonConvert.DeserializeObject<Person>(response);
@@ -49,7 +49,7 @@ namespace DatabaseIntegration.IntegrationTest
         [Fact]
         public async Task ShouldGetPersonById()
         {
-            var httpResponse = await _httpClient.GetAsync("/api/persons/1");
+            var httpResponse = await _httpClient.GetAsync("/api/v1/persons/1");
             httpResponse.EnsureSuccessStatusCode();
             var response = await httpResponse.Content.ReadAsStringAsync();
             var personCreated = JsonConvert.DeserializeObject<Person>(response);
@@ -64,7 +64,7 @@ namespace DatabaseIntegration.IntegrationTest
         [Fact]
         public async Task ShouldDeleteById()
         {
-            var httpResponse = await _httpClient.DeleteAsync("/api/persons/2"); 
+            var httpResponse = await _httpClient.DeleteAsync("/api/v1/persons/2"); 
             Assert.True(httpResponse.StatusCode == System.Net.HttpStatusCode.OK);
         }
 
@@ -74,7 +74,7 @@ namespace DatabaseIntegration.IntegrationTest
             _person.LastName = "Fialho";
             var body = new StringContent(JsonConvert.SerializeObject(_person).ToString());
             body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var httpResponse = await _httpClient.PutAsync("/api/persons/1", body);
+            var httpResponse = await _httpClient.PutAsync("/api/v1/persons/1", body);
             Assert.True(httpResponse.StatusCode == System.Net.HttpStatusCode.OK);
         }
     }

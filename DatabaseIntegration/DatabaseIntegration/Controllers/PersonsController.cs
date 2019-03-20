@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatabaseIntegration.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class PersonsController : ControllerBase
     {

@@ -25,6 +25,7 @@ namespace DatabaseIntegration
             var connection = Configuration["MySqlConnection:ConnectionString"];
             services.AddDbContext<CursoAspNetCoreContext>(options => options.UseMySql(connection));
             services.AddTransient<IPersonService, PersonService>();
+            services.AddApiVersioning();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
