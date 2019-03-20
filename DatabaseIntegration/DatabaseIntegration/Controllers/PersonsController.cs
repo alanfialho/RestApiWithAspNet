@@ -18,7 +18,6 @@ namespace DatabaseIntegration.Controllers
             _service = service;
         }
         
-        // GET api/values/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -26,7 +25,6 @@ namespace DatabaseIntegration.Controllers
             return Ok(person);
         }
 
-        // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody] Person person)
         {
@@ -34,16 +32,19 @@ namespace DatabaseIntegration.Controllers
             return Ok(@new);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] Person person)
         {
+            person.Id = id;
+            _service.Update(person);
+            return Ok();
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _service.Delete(id);
+            return Ok();
         }
     }
 }

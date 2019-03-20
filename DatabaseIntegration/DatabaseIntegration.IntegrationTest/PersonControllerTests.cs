@@ -13,23 +13,25 @@ namespace DatabaseIntegration.IntegrationTest
     public class PersonControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
+        private Person _person;
 
         public PersonControllerTests(WebApplicationFactory<Startup> factory)
         {
             _httpClient = factory.CreateClient();
-        }
 
-        [Fact]
-        public async Task ShouldCreateNewPerson()
-        {
-            var person = new Person
+            _person = new Person
             {
                 FirstName = "alan",
                 LastName = "morais",
                 Address = "rua ernesto evans 578",
                 Gender = "Male"
             };
-            var body = new StringContent(JsonConvert.SerializeObject(person).ToString());
+        }
+
+        [Fact]
+        public async Task ShouldCreateNewPerson()
+        {
+            var body = new StringContent(JsonConvert.SerializeObject(_person).ToString());
             body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var httpResponse = await _httpClient.PostAsync("/api/persons", body);
             httpResponse.EnsureSuccessStatusCode();
@@ -37,10 +39,10 @@ namespace DatabaseIntegration.IntegrationTest
             var personCreated = JsonConvert.DeserializeObject<Person>(response);
 
             Assert.True(personCreated.Id > 0);
-            Assert.Equal(personCreated.FirstName, person.FirstName);
-            Assert.Equal(personCreated.LastName, person.LastName);
-            Assert.Equal(personCreated.Gender, person.Gender);
-            Assert.Equal(personCreated.Address, person.Address);
+            Assert.Equal(personCreated.FirstName, _person.FirstName);
+            Assert.Equal(personCreated.LastName, _person.LastName);
+            Assert.Equal(personCreated.Gender, _person.Gender);
+            Assert.Equal(personCreated.Address, _person.Address);
 
         }
 
@@ -57,7 +59,23 @@ namespace DatabaseIntegration.IntegrationTest
             Assert.NotEmpty(personCreated.LastName);
             Assert.NotEmpty(personCreated.Gender);
             Assert.NotEmpty(personCreated.Address);
+        }
 
+        [Fact]
+        public async Task ShouldDeleteById()
+        {
+            var httpResponse = await _httpClient.DeleteAsync("/api/persons/2"); 
+            Assert.True(httpResponse.StatusCode == System.Net.HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task ShouldUpdate()
+        {
+            _person.LastName = "Fialho";
+            var body = new StringContent(JsonConvert.SerializeObject(_person).ToString());
+            body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var httpResponse = await _httpClient.PutAsync("/api/persons/1", body);
+            Assert.True(httpResponse.StatusCode == System.Net.HttpStatusCode.OK);
         }
     }
 }

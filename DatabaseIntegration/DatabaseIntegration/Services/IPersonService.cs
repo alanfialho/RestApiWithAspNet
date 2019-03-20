@@ -6,5 +6,7 @@ namespace DatabaseIntegration.Services
     {
         Person Create(Person person);
         Person GetById(int id);
+        void Delete(int id);
+        void Update(Person person);
     }
 }
