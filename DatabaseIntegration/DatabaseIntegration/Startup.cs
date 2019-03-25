@@ -7,25 +7,55 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
 
 namespace DatabaseIntegration
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly ILogger<Startup> _logger;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger)
+        {
+            _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration["MySqlConnection:ConnectionString"];
-            services.AddDbContext<CursoAspNetCoreContext>(options => options.UseMySql(connection));
+            var connectionString = _configuration["MySqlConnection:ConnectionString"];
+            services.AddDbContext<CursoAspNetCoreContext>(options => options.UseMySql(connectionString));
             services.AddTransient<IPersonService, PersonService>();
             services.AddApiVersioning();
+           
+            if (_hostingEnvironment.IsDevelopment())
+            {
+                try
+                {
+                    var mySqlConnection = new MySqlConnection(connectionString);
+
+                    var evolve = new Evolve.Evolve(mySqlConnection, message => _logger.LogInformation(message))
+                    {
+                        Locations = new List<string> { "db/migrations" },
+                        IsEraseDisabled = true,
+                    };
+
+                    evolve.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogCritical("Migration failed", ex);
+                    throw;
+                }
+            }
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
