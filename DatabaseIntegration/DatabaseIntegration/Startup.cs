@@ -44,7 +44,7 @@ namespace DatabaseIntegration
 
                     var evolve = new Evolve.Evolve(mySqlConnection, message => _logger.LogInformation(message))
                     {
-                        Locations = new List<string> { "db/migrations" },
+                        Locations = new List<string> { "db/scripts", "db/dataset" },
                         IsEraseDisabled = true,
                     };
 

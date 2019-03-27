@@ -16,14 +16,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="db\dataset\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="db\migrations\V1_1_0_1__CreatePerson.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1_1_0_2__AlterPerson.sql">
+    <None Update="db\scripts\V1_1_0_1__CreatePerson.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
