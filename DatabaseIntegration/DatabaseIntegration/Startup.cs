@@ -34,6 +34,7 @@ namespace DatabaseIntegration
             var connectionString = _configuration["MySqlConnection:ConnectionString"];
             services.AddDbContext<CursoAspNetCoreContext>(options => options.UseMySql(connectionString));
             services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<IBookService, BookService>();
             services.AddApiVersioning();
            
             if (_hostingEnvironment.IsDevelopment())

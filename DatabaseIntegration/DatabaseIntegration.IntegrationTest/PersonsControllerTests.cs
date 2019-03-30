@@ -10,12 +10,12 @@ using Xunit;
 
 namespace DatabaseIntegration.IntegrationTest
 {
-    public class PersonControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class PersonsControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
         private Person _person;
 
-        public PersonControllerTests(WebApplicationFactory<Startup> factory)
+        public PersonsControllerTests(WebApplicationFactory<Startup> factory)
         {
             _httpClient = factory.CreateClient();
 

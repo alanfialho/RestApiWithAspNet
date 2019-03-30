@@ -1,11 +1,9 @@
 INSERT INTO `curso_asp_net_core`.`books`
-(`Id`,
-`Author`,
+(`Author`,
 `LaunchDate`,
 `Price`,
 `Title`)
-VALUES
-(1,
+VALUES(
 'Martin Fowler',
 now(),
 90,

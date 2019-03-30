@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseIntegration", "DatabaseIntegration\DatabaseIntegration.csproj", "{37EDB989-F8E5-4DC1-AF0D-C078025BBB88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseIntegration", "DatabaseIntegration\DatabaseIntegration.csproj", "{37EDB989-F8E5-4DC1-AF0D-C078025BBB88}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{CCA21EAA-4597-4DAE-8CE1-CF6AD4472E4F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CCA21EAA-4597-4DAE-8CE1-CF6AD4472E4F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTest", "IntegrationTest", "{FE407E80-87E5-4235-BF3A-2ADDB3D750AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseIntegration.IntegrationTest", "DatabaseIntegration.IntegrationTest\DatabaseIntegration.IntegrationTest.csproj", "{2D060667-7A08-4EF2-9F06-C29F0DADB2B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseIntegration.IntegrationTest", "DatabaseIntegration.IntegrationTest\DatabaseIntegration.IntegrationTest.csproj", "{2D060667-7A08-4EF2-9F06-C29F0DADB2B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,7 +28,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2D060667-7A08-4EF2-9F06-C29F0DADB2B5} = {FE407E80-87E5-4235-BF3A-2ADDB3D750AD}
+		{2D060667-7A08-4EF2-9F06-C29F0DADB2B5} = {CCA21EAA-4597-4DAE-8CE1-CF6AD4472E4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E4406CA0-E5E7-4543-9251-DDBEF3C48D64}

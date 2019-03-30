@@ -1,12 +1,10 @@
 INSERT INTO `curso_asp_net_core`.`persons`
-(`id`,
-`firstName`,
+(`firstName`,
 `lastName`,
 `address`,
 `gender`)
 VALUES
-(1,
-'alan',
+('alan',
 'fialho',
 'rua ernesto evans 578',
 'masculino');
