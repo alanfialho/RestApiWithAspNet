@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +37,7 @@ namespace DatabaseIntegration
             services.AddDbContext<CursoAspNetCoreContext>(options => options.UseMySql(connectionString));
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IBookService, BookService>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddApiVersioning();
            
             if (_hostingEnvironment.IsDevelopment())
