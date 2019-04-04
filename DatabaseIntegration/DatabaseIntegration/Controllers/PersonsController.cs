@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using DatabaseIntegration.Model;
 using DatabaseIntegration.Services;
 using DatabaseIntegration.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -34,10 +33,11 @@ namespace DatabaseIntegration.Controllers
         }
 
         [HttpPost(Name = nameof(Post))]
-        public IActionResult Post([FromBody] Person person)
+        [ProducesResponseType(200, Type = typeof(PersonViewModel))]
+        public IActionResult Post([FromBody, Required] Person person)
         {
             var @new = _service.Create(person);
-            return Ok(@new);
+            return Ok(MapTo(@new));
         }
 
         [HttpPut("{id}", Name =nameof(Put))]
