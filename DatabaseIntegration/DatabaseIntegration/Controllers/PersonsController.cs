@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using DatabaseIntegration.Model;
 using DatabaseIntegration.Services;
 using DatabaseIntegration.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -12,6 +13,7 @@ namespace DatabaseIntegration.Controllers
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Authorize("Bearer")]
     public class PersonsController : ControllerBase
     {
         private readonly IPersonService _service;

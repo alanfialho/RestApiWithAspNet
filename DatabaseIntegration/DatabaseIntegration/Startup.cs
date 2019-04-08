@@ -1,5 +1,7 @@
 ﻿using DatabaseIntegration.Model.Context;
 using DatabaseIntegration.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -37,11 +39,46 @@ namespace DatabaseIntegration
         {
             var connectionString = _configuration["MySqlConnection:ConnectionString"];
             services.AddDbContext<CursoAspNetCoreContext>(options => options.UseMySql(connectionString));
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IBookService, BookService>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddApiVersioning();
-           
+            ExecuteMigration(connectionString);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options => 
+            {
+                var validationParameters = options.TokenValidationParameters;
+                validationParameters.IssuerSigningKey = SignInCredentialsHandler.Credentials.Key;
+                validationParameters.ValidAudience = Token.Audience;
+                validationParameters.ValidIssuer = Token.Issuer;
+                validationParameters.ValidateIssuerSigningKey = true;
+                validationParameters.ValidateLifetime = true;
+                validationParameters.ClockSkew = TimeSpan.Zero;
+            });
+
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Database Integration API", Version = "v1" });
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        }
+
+        private void ExecuteMigration(string connectionString)
+        {
             if (_hostingEnvironment.IsDevelopment())
             {
                 try
@@ -62,13 +99,6 @@ namespace DatabaseIntegration
                     throw;
                 }
             }
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Database Integration API", Version = "v1" });
-            });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
